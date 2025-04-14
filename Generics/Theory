@@ -1,0 +1,116 @@
+Generics allow us to create classes, interfaces, and methods that work with any data type while maintaining type safety.
+
+Why Use Generics?
+
+Feature			Benefit
+Type Safety		Compile-time checking of types, avoiding class cast issues
+Code Reusability	Reuse same code with different data types
+No Typecasting		Avoid unnecessary casting when retrieving values
+Readability		Makes code easier to read and maintain
+
+Syntax of Generics:
+
+1. GENERIC CLASS
+
+class ClassName<T> {
+    T data;
+}
+
+T is a type parameter (can be replaced with any object type like Integer, String, etc.)
+Common letters: T (Type), E (Element), K (Key), V (Value)
+
+2. GENERIC METHOD
+
+public <T> void printArray(T[] array) {
+    for (T item : array) {
+        System.out.println(item);
+    }
+}
+
+Declared with <T> before return type
+Used when method works with multiple types
+
+
+Wildcard Generics:
+
+Wildcard Type		Meaning						Usage
+<?>			Unknown type					Read-only operations
+<? extends T>		Unknown type that is a subclass of T		When you only read, not write
+<? super T>		Unknown type that is a superclass of T		When you want to write, not read safely
+
+List<? extends Number> list1 = new ArrayList<Integer>(); // Read only
+List<? super Integer> list2 = new ArrayList<Number>();   // Can add Integer
+
+
+what is the difference between :
+
+public static <T> void demo(List<T> arr){}
+
+public static void demo(List<?> arr){}
+
+1. public static <T> void demo(List<T> arr)
+
+This declares a generic method with a type parameter T.
+Key Points:
+
+You can use T throughout the method.
+Type is inferred when you call the method.
+You can add elements of type T to the list (if allowed).
+
+public static <T> void demo(List<T> arr) {
+    for (T item : arr) {
+        System.out.println(item);
+    }
+}
+
+List<String> names = List.of("Alice", "Bob");
+demo(names);  // T is inferred as String
+
+2. public static void demo(List<?> arr)
+
+This uses a wildcard (unknown type). It's not a generic method—just a method that accepts any typed list.
+Key Points:
+
+? means "I don't know the type."
+You cannot add any element (except null).
+You can read from the list (but as Object only).
+
+public static void demo(List<?> arr) {
+    for (Object item : arr) {
+        System.out.println(item);
+    }
+}
+
+List<Integer> nums = List.of(1, 2, 3);
+demo(nums);  // Accepts List of any type
+
+
+Difference:
+
+Feature				<T> (Generic Method)				<?> (Wildcard Parameter)
+Type Declaration		Declares a new type T				Uses an unknown type
+Can add elements to list	✅ Yes						❌ No (except null)
+Can read elements		✅ Yes (as T)					✅ Yes (as Object)
+When to use			You need to manipulate list items as type T	You just need to read/iterate safely
+
+Use <T> when you need to be type-aware and perform type-specific operations.
+Use <?> when you want to accept any kind of list safely and only read from it.
+
+
+Generic Restrictions:
+
+Restriction							Explanation
+Cannot create objects of type parameter				T obj = new T(); ❌
+Cannot create static fields of type T				static T value; ❌
+Cannot use instanceof with generic type				if (obj instanceof T) ❌
+Cannot create arrays of generic types				T[] arr = new T[10]; ❌ Use Object[] instead
+
+
+Bounded Type Parameters:
+
+Upper Bound (extends):
+
+class Demo<T extends Number> {
+    T data;
+}
+Only accepts Number or its subclasses (Integer, Double, etc.)
