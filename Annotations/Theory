@@ -1,0 +1,69 @@
+Annotations are metadata that provide additional information about the code, but don’t change how the code runs.
+
+They act like labels or tags attached to your code that:
+1.Help the compiler
+2.Help tools (like frameworks or test runners)
+3.Sometimes are used at runtime using Reflection
+
+Common annotations:
+
+Annotation					Purpose
+----------------------------------------------------------------------------------
+@Override					Tells the compiler you're overriding a method
+@Test						Used by JUnit to mark test methods
+@SuppressWarnings				Tells compiler to ignore certain warnings
+
+
+Why Do We Need Annotations?
+
+Use Case					Description
+-----------------------------------------------------------------------------------------------------------------
+✔ Code-level documentation			Annotations make code self-descriptive
+✔ Compiler instructions			E.g., @Override causes a compile error if you don’t override properly
+✔ Runtime behavior				Frameworks like Spring or JUnit use annotations to drive behavior
+✔ Reduce boilerplate code			Instead of XML or long code, annotations can configure behavior concisely
+
+
+What Makes Up a Custom Annotation?
+
+Element						Meaning
+---------------------------------------------------------------------------------------------------------------------
+@Retention(...)					When the annotation is available (SOURCE, CLASS, RUNTIME)
+@Target(...)					Where it can be applied (METHOD, FIELD, TYPE)
+Method-like syntax				To define parameters for the annotation
+
+
+What is RetentionPolicy?
+
+@Retention(...) tells the compiler how long your annotation should be retained — i.e., where it should be available and visible.
+You choose one of these:
+@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
+
+1. RetentionPolicy.SOURCE (Compile-time only)
+
+The annotation is only present in source code
+It gets discarded during compilation
+Used mostly by tools like @Override, @SuppressWarnings
+
+Example:
+@Override
+public String toString() { return "Hi"; }
+
+✅ Checked at compile-time
+❌ Not available in .class file or at runtime
+
+
+2. RetentionPolicy.CLASS (Stored in .class, but not accessible at runtime)
+
+Annotation is compiled and stored in the .class file
+But it’s not available to your running program
+Useful for frameworks that work with bytecode (e.g., some compilers, annotation processors)
+⚠️ This is the default if you don’t specify @Retention
+
+
+3. RetentionPolicy.RUNTIME (Available at runtime via reflection)
+
+Annotation is present in source, compiled to .class, and available at runtime
+✅ This is used when your program/framework (like Spring, JUnit, Hibernate) needs to read annotations dynamically
