@@ -1,0 +1,30 @@
+Rehashing is triggered (if load factor is exceeded):
+
+HashMap calculates:
+size / capacity > load factor
+For example, if capacity = 16 and load factor = 0.75, resizing occurs when size > 12.
+
+Resizing (doubling the bucket array):
+
+A new bucket array with double the capacity is created.
+
+All existing entries are rehashed and moved to the new array.
+
+This is a costly O(n) operation temporarily.
+
+Continued operation:
+
+After resizing, the HashMap has more room, reducing collisions.
+
+Insertions, lookups, and deletions go back to average O(1) time.
+
+
+
+
+If the bucket size is reached or exceeded:
+
+If within load factor → more collisions, performance degrades.
+
+If load factor is exceeded → resizing and rehashing occur.
+
+Java automatically manages this for you, but frequent resizing is expensive—so choosing a good initial capacity matters.
